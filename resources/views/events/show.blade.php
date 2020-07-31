@@ -8,7 +8,7 @@
 			<persons-list :is-admin="{{ $isAdmin }}" :person-id="{{ $person->id }}" class="order-2 pt-4 md:pt-16 md:order-1"></persons-list>
 			
 			<div class="flex flex-col order-1 w-full pl-0 md:pl-16 md:order-2">
-				<event-info :is-admin="{{ $isAdmin }}" url="{{ 'https:' . url('/events'. '/'. $event->code) }}" class="pt-2"></event-info>
+				<event-info :is-admin="{{ $isAdmin }}" url="{{ url('/events'. '/'. $event->code) }}" class="pt-2"></event-info>
 				<answers></answers>
 				<calendar></calendar>
 			</div>
