@@ -21,6 +21,7 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('persons-list', require('./components/PersonsList.vue').default);
 Vue.component('event-info', require('./components/EventInfo.vue').default);
+Vue.component('calendar', require('./components/Calendar.vue').default);
 Vue.component('answers', require('./components/Answers.vue').default);
 Vue.component('modal', require('./components/Modal.vue').default);
 

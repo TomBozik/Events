@@ -19,5 +19,14 @@ module.exports = {
     variants: {
       borderColor: ['responsive', 'hover', 'focus', 'focus-within'],
     },
+    theme: {
+      extend: {
+        spacing: {
+         '72': '18rem',
+         '84': '21rem',
+         '96': '24rem',
+        }
+      }
+    },
     plugins: []
   }
