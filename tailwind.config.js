@@ -5,6 +5,8 @@ module.exports = {
       './src/**/*.html',
       './src/**/*.vue',
     ],
-    variants: {},
+    variants: {
+      borderColor: ['responsive', 'hover', 'focus', 'focus-within'],
+    },
     plugins: []
   }

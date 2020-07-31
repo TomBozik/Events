@@ -1,0 +1,55 @@
+<template>
+    <div class="flex flex-col w-full md:w-64">
+        <div class="text-xl font-bold text-center uppercase">Event Persons</div>
+        <div v-for="person in persons" :key="person.id" class="px-2">
+            <div class="flex flex-col pt-2 font-bold text-center uppercase text-md">
+                <div>{{ person.username }}</div>
+                <button v-if="isAdmin == 1" v-on:click="deletePerson(person.id)" class="text-xs font-semibold text-red-500 hover:text-red-700">DELETE</button>
+            </div>
+            <div v-for="answer in person.answers" :key="answer.id" class="pb-1 text-sm font-semibold text-center">
+                {{ answer.from }} - {{ answer.to }}
+            </div>
+        </div>
+        <!-- {{ isAdmin }} -->
+    </div>
+</template>
+
+<script>
+    export default {
+        props:['isAdmin'],
+        data(){
+            return {
+                persons: [],
+                errors: null,
+            }
+        },
+        methods:{
+            deletePerson(id){
+                var self = this;
+                axios.delete(`/api/person/${id}`).then(
+                    response =>{
+                        self.persons = self.persons.filter(obj => obj.id !== id);
+                    },error => {
+                        self.errors = error;
+                    }
+                );
+            },
+            getPersons(){
+                var self = this;
+                axios.get('/api/event-persons').then(
+                    response =>{
+                        self.persons = response.data.data
+                    },error => {
+                        self.errors = error;
+                    }
+                );
+            }
+        },
+        mounted() {
+            this.getPersons();
+        },
+        created(){
+            this.$root.$refs.PersonsList = this;
+        },
+    }
+</script>

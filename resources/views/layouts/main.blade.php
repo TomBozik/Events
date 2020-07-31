@@ -14,8 +14,8 @@
     </head>
 
     <body>
-        <div id="app" class="flex-1">
-            <main class="">
+        <div id="app">
+            <main>
                 @yield('content')
             </main>
         </div>
