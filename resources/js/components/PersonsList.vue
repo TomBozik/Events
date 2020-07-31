@@ -4,7 +4,7 @@
         <div v-for="person in persons" :key="person.id" class="px-2">
             <div class="flex flex-col pt-2 font-bold text-center uppercase text-md">
                 <div>{{ person.username }}</div>
-                <button v-if="isAdmin == 1" v-on:click="deletePerson(person.id)" class="text-xs font-semibold text-red-500 hover:text-red-700">DELETE</button>
+                <button v-if="isAdmin == 1" v-on:click="deletePerson(person.id)" class="text-xs font-semibold text-red-500 appearance-none focus:outline-none hover:text-red-700">DELETE</button>
             </div>
             <div v-for="answer in person.answers" :key="answer.id" class="pb-1 text-sm font-semibold text-center">
                 {{ answer.from }} - {{ answer.to }}
