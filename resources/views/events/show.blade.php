@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="min-h-screen bg-gray-100">
+<div class="min-h-screen bg-gray-100 custombg">
 	<div class="container flex flex-col mx-auto">
 		<div class="flex flex-col flex-1 bg-gray-100 md:flex-row">
 
