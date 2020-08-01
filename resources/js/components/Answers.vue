@@ -2,7 +2,7 @@
     <div class="flex flex-col lg:flex-row">
         <!-- <div class="flex flex-row pb-1 pr-0 lg:pr-4"> -->
             <!-- <div class="font-bold text-center md:text-left">Date:</div> -->
-            <div class="self-center pb-2 pr-0 lg:pb-0 lg:pr-2"><date-picker v-model="date" range :valueType="dateFormatSend" :format="dateFormat" placeholder="DATE"></date-picker></div>
+            <div class="self-center pb-2 pr-0 lg:pb-0 lg:pr-2"><date-picker v-model="date" range :valueType="dateFormatSend" :format="dateFormat" :lang="lang" placeholder="DATE"></date-picker></div>
             <button @click="submitAnswer" class="self-center px-24 py-1 text-lg font-bold tracking-wide text-white uppercase bg-black rounded-sm appearance-none lg:px-12 hover:text-orange-500 focus:outline-none">Add date</button>
         <!-- </div> -->
         <!-- <div class="flex flex-col">
@@ -28,6 +28,11 @@
                 dateFormatSend:"YYYY-MM-DD",
                 answers: [],
                 errors: null,
+                lang: {
+                    formatLocale: {
+                        firstDayOfWeek: 1,
+                    },
+                },
             }
         },
         methods: {

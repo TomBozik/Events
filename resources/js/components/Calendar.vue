@@ -18,7 +18,7 @@
                 calendarOptions: {
                     plugins: [ dayGridPlugin ],
                     initialView: 'dayGridMonth',
-                    // eventDidMount: this.handleEventMount,
+                    firstDay:1,
                     events: [
                         { title: '(4)', start: '2020-08-16', end: '2020-08-21', description: 'description for Long Event', textColor: 'white' },
                     ],
@@ -37,14 +37,6 @@
             }
         },
         methods: {
-            // handleEventMount: function(info) {
-            //     var tooltip = new Tooltip(info.el, {
-            //         title: info.event.extendedProps.description,
-            //         placement: 'top',
-            //         trigger: 'hover',
-            //         container: 'body'
-            //     });
-            // },
         },
         mounted() {
         }
