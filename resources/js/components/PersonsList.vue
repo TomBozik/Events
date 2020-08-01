@@ -7,7 +7,7 @@
                 <div v-else :class="person.id == personId ? 'font-bold' : 'font-semibold'">{{ person.username }}</div>
             </div>
             <div v-for="answer in person.answers" :key="answer.id" class="pb-1 text-sm text-center">
-               <button v-if="person.id == personId" :class="person.id == personId ? 'font-extrabold hover:text-red-500' : 'font-semibold'" v-on:click="deleteAnswer(answer.id)" >{{ answer.from }} - {{ answer.to }}</button>
+               <button v-if="person.id == personId" :class="person.id == personId ? 'font-extrabold hover:text-red-500 appearance-none focus:outline-none' : 'font-semibold'" v-on:click="deleteAnswer(answer.id)" >{{ answer.from }} - {{ answer.to }}</button>
                <div v-else :class="person.id == personId ? 'font-bold' : 'font-semibold'">{{ answer.from }} - {{ answer.to }}</div>
             </div>
             <div v-if="person.id == personId" class="w-32 h-1 mx-auto my-1 bg-gray-300 rounded-full"></div>

@@ -18,19 +18,18 @@
                 calendarOptions: {
                     plugins: [ dayGridPlugin ],
                     initialView: 'dayGridMonth',
+                    // eventDidMount: this.handleEventMount,
                     events: [
-                        // { title: '4 persons', start: '2020-07-11', end: '2020-07-19', color: 'green' },
-                        // { title: '4 persons', start: '2020-07-26', end: '2020-08-02', color: 'black' },
-                        // { title: '6 persons', start: '2020-07-17', end: '2020-07-24', color: 'blue' },
+                        { title: '(4)', start: '2020-08-16', end: '2020-08-21', description: 'description for Long Event', textColor: 'white' },
                     ],
-                    eventColor: '#378006',
+                    // eventColor: '#378006',
                     headerToolbar: {
                         left: '',
                         center: '',
                         right: ''
                     },
                     footerToolbar: {
-                        left: '',
+                        left: 'title',
                         center: '',
                         right: 'prev,next'
                     },
@@ -38,14 +37,16 @@
             }
         },
         methods: {
+            // handleEventMount: function(info) {
+            //     var tooltip = new Tooltip(info.el, {
+            //         title: info.event.extendedProps.description,
+            //         placement: 'top',
+            //         trigger: 'hover',
+            //         container: 'body'
+            //     });
+            // },
         },
         mounted() {
-            // //TODO: errors
-            // var self = this;
-            // axios.get('/api/my-answers')
-            // .then(function(response){
-            //     self.answers = response.data.data;
-            // });
         }
     }
 </script>
