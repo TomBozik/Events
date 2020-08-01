@@ -14,7 +14,7 @@ class PersonController extends Controller
             'event_id'          => ['required'],
             'person_name'       => ['required'],
             'event_password'    => ['required'],
-            'email'             => ['required'],
+            'email'             => ['email', 'nullable'],
         ]);
         
 

@@ -23,7 +23,7 @@ class EventController extends Controller
             'event_name'        => ['required'],
             'event_password'    => ['required'],
             'person_name'       => ['required'],
-            'email'             => ['required'],
+            'email'             => ['email', 'nullable'],
             // 'description'       => ['required'],
             // 'max_answers'       => ['required'],
         ]);

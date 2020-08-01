@@ -42,13 +42,16 @@
             }
         },
         methods: {
+            getEventOverlaps() {
+                var self = this;
+                axios.get('/api/event-overlaps')
+                .then(function(response){
+                    self.calendarOptions.events = JSON.parse(response.data.data);
+                });
+            }
         },
         mounted() {
-        var self = this;
-        axios.get('/api/event-overlaps')
-        .then(function(response){
-            self.calendarOptions.events = JSON.parse(response.data.data);
-        });
-    }
+            this.getEventOverlaps();
+        }
     }
 </script>
