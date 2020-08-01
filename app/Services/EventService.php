@@ -1,6 +1,8 @@
 <?php
 namespace App\Services;
 use App\Event;
+use Spatie\Period\Period;
+use Spatie\Period\PeriodCollection;
 
 class EventService
 {
@@ -44,6 +46,43 @@ class EventService
         ]);
         
         return $event;
+    }
+
+    public function getOverlaps($event)
+    {
+        $eventAnswers = $event->answers()->get();
+
+        $sortedEventAnswersByPerson = [];
+        foreach($eventAnswers as $answer){
+            $sortedEventAnswersByPerson[$answer->person_id][] = $answer;
+        }
+        $sortedEventAnswersByPerson = array_values($sortedEventAnswersByPerson);
+
+
+        $allPeriods = [];
+        foreach($sortedEventAnswersByPerson as $personAnswers){
+            $personAnswersPeriodCollection = new PeriodCollection();
+            foreach($personAnswers as $personAnswer){
+                $personAnswersPeriodCollection = $personAnswersPeriodCollection->add(Period::make($personAnswer->from, $personAnswer->to));
+            }
+            array_push($allPeriods, $personAnswersPeriodCollection);
+        }
+
+        $last = array_pop($allPeriods);
+        $overlaps = $last->overlap(...$allPeriods);
+        $overlapsArr = [];
+
+        foreach($overlaps as $overlap){
+            $overlapElement = [
+                'title' => 'EVERYONE',
+                'start' => \DateTime::createFromImmutable($overlap->getStart())->format('Y-m-d'),
+                'end' => \DateTime::createFromImmutable($overlap->getEnd())->modify('+1 day')->format('Y-m-d')
+            ];
+            array_push($overlapsArr, $overlapElement);
+        }
+
+        return json_encode($overlapsArr);
+
     }
 
 }

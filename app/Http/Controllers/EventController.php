@@ -126,4 +126,17 @@ class EventController extends Controller
         $event = $eventService->updateEvent($event, $data);
         return new EventResource($event);
     }
+
+    public function getEventOverlaps(Request $request)
+    {
+        $personCode = $request->cookie('personCode');
+        $eventService = new EventService();
+        $personService = new PersonService();
+
+        $person = $personService->getPersonByCode($personCode);
+        $event = $eventService->getEventById($person->event_id);
+        $overlaps = $eventService->getOverlaps($event);
+
+        return response()->json(['data' => $overlaps]);
+    }
 }

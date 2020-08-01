@@ -19,6 +19,7 @@ Route::delete('person/{id}', 'PersonController@deletePerson');      //.
 
 Route::get('event-info', 'EventController@getEventInfo');           //.
 Route::put('event-info', 'EventController@updateEventInfo');        //.
+Route::get('event-overlaps', 'EventController@getEventOverlaps');   //.
 
 Route::post('answer', 'AnswerController@store');                    //.
 Route::delete('answer/{id}', 'AnswerController@deleteAnswer');      //.

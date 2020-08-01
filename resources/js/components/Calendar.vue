@@ -15,18 +15,19 @@
         },
         data(){
             return {
+                overlaps: null,
                 calendarOptions: {
                     plugins: [ dayGridPlugin ],
                     initialView: 'dayGridMonth',
                     firstDay:1,
                     events: [
                         // { title: 'LONGEST - 3/5 (except: Jano, Fero)', start: '2020-08-17', end: '2020-08-21', textColor: 'white', color:'gray' },
-                        { title: 'EVERYONE', start: '2020-08-18', end: '2020-08-21', textColor: 'white',  color:'black'},
-                        { title: 'EVERYONE', start: '2020-08-05', end: '2020-08-07', textColor: 'white',  color:'black'},
-                        { title: 'EVERYONE', start: '2020-08-28', end: '2020-08-31', textColor: 'white',  color:'black'},
+                        // { title: 'EVERYONE', start: '2020-08-18', end: '2020-08-21', textColor: 'white',  color:'black'},
+                        // { title: 'EVERYONE', start: '2020-08-05', end: '2020-08-07', textColor: 'white',  color:'black'},
+                        // { title: 'EVERYONE', start: '2020-08-28', end: '2020-08-31', textColor: 'white',  color:'black'},
 
                     ],  
-                    // eventColor: '#378006',
+                    eventColor: 'black',
                     headerToolbar: {
                         left: '',
                         center: '',
@@ -43,6 +44,11 @@
         methods: {
         },
         mounted() {
-        }
+        var self = this;
+        axios.get('/api/event-overlaps')
+        .then(function(response){
+            self.calendarOptions.events = JSON.parse(response.data.data);
+        });
+    }
     }
 </script>
