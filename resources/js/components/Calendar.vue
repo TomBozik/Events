@@ -20,8 +20,12 @@
                     initialView: 'dayGridMonth',
                     firstDay:1,
                     events: [
-                        { title: '(4)', start: '2020-08-16', end: '2020-08-21', description: 'description for Long Event', textColor: 'white' },
-                    ],
+                        { title: 'LONGEST - 3/5 (except: Jano, Fero)', start: '2020-08-17', end: '2020-08-21', textColor: 'white', color:'gray' },
+                        { title: 'MOST - 5/5 (everyone)', start: '2020-08-18', end: '2020-08-21', textColor: 'white',  color:'black'},
+                        { title: 'MOST - 5/5 (everyone)', start: '2020-08-05', end: '2020-08-07', textColor: 'white',  color:'black'},
+                        { title: 'MOST - 5/5 (everyone)', start: '2020-08-28', end: '2020-08-31', textColor: 'white',  color:'black'},
+
+                    ],  
                     // eventColor: '#378006',
                     headerToolbar: {
                         left: '',
