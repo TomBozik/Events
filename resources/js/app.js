@@ -19,6 +19,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('invitation-link', require('./components/InvitationLink.vue').default);
 Vue.component('persons-list', require('./components/PersonsList.vue').default);
 Vue.component('event-info', require('./components/EventInfo.vue').default);
 Vue.component('calendar', require('./components/Calendar.vue').default);
