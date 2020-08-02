@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="min-h-screen bg-gray-100 custombg">
-	<div class="container flex flex-col mx-auto">
+	<div class="container flex flex-col min-h-screen mx-auto">
 		<div class="flex flex-col flex-1 bg-gray-100 md:flex-row">
 
 			<persons-list :is-admin="{{ $isAdmin }}" :person-id="{{ $person->id }}" class="order-2 pt-4 md:pt-16 md:order-1"></persons-list>

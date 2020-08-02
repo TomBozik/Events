@@ -42,6 +42,7 @@
                     response =>{
                         // self.answers = self.answers.filter(obj => obj.id !== id);
                         self.getPersons();
+                        this.$root.$refs.Calendar.getEventOverlaps();
                     },error => {
                         self.errors = error;
                     }

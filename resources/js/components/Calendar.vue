@@ -1,6 +1,6 @@
 <template>
-    <div class="mx-2">
-        <FullCalendar :options="calendarOptions" />
+    <div class="pb-4 mx-1 md:flex-1 md:h-auto h-150">
+        <FullCalendar ref="fullCalendar" :options="calendarOptions" />
     </div>
 </template>
 
@@ -8,6 +8,7 @@
 
     import FullCalendar from '@fullcalendar/vue'
     import dayGridPlugin from '@fullcalendar/daygrid'
+    import interactionPlugin from '@fullcalendar/interaction'
     
     export default {
         components:{
@@ -16,17 +17,17 @@
         data(){
             return {
                 overlaps: null,
+                plugins: [ dayGridPlugin ],
                 calendarOptions: {
-                    plugins: [ dayGridPlugin ],
+                    plugins: [ dayGridPlugin,interactionPlugin ],
                     initialView: 'dayGridMonth',
                     firstDay:1,
-                    events: [
-                        // { title: 'LONGEST - 3/5 (except: Jano, Fero)', start: '2020-08-17', end: '2020-08-21', textColor: 'white', color:'gray' },
-                        // { title: 'EVERYONE', start: '2020-08-18', end: '2020-08-21', textColor: 'white',  color:'black'},
-                        // { title: 'EVERYONE', start: '2020-08-05', end: '2020-08-07', textColor: 'white',  color:'black'},
-                        // { title: 'EVERYONE', start: '2020-08-28', end: '2020-08-31', textColor: 'white',  color:'black'},
-
-                    ],  
+                    height: '100%',
+                    // aspectRatio:0.8,
+                    events:{
+                        url: '/api/event-overlaps',
+                        method: 'GET'
+                    },  
                     eventColor: 'black',
                     headerToolbar: {
                         left: '',
@@ -43,15 +44,39 @@
         },
         methods: {
             getEventOverlaps() {
+                //delete old
+                let calendarApi = this.$refs.fullCalendar.getApi();
+                let events = calendarApi.getEvents();
+                for (let i = 0; i < events.length; i++){
+                    events[i].remove();
+                }
+
+                //load new
                 var self = this;
                 axios.get('/api/event-overlaps')
                 .then(function(response){
-                    self.calendarOptions.events = JSON.parse(response.data.data);
+                    let calendarApi = self.$refs.fullCalendar.getApi();
+                    let events = [];
+                    events = JSON.parse(response.data.data);
+                    for (let i = 0; i < events.length; i++){
+                        calendarApi.addEvent(events[i]);
+                    }
                 });
-            }
+            },
         },
         mounted() {
             this.getEventOverlaps();
-        }
+        },
+        created(){
+            this.$root.$refs.Calendar = this;
+        },
     }
 </script>
+
+<style>
+.fc .fc-toolbar-title{
+    font-size: 1.2em;
+    margin: 0;
+    text-transform: uppercase;
+}
+</style>

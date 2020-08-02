@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "@fullcalendar/daygrid": "^5.2.0",
+        "@fullcalendar/interaction": "^5.2.0",
         "@fullcalendar/vue": "^5.2.0",
         "browser-sync": "^2.26.12",
         "browser-sync-webpack-plugin": "^2.2.2",
