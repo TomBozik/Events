@@ -52,5 +52,8 @@
                 }
             }
         },
+        mounted (){
+            document.getElementById('url-tmp').setAttribute('readonly', 'readonly');
+        }
     }
 </script>

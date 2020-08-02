@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="flex flex-col w-screen h-screen custombg">
+<div class="flex flex-col w-screen custom-h-screen custombg">
     <div class="w-full max-w-xl mx-auto my-auto sm:w-1/2">
         <div class="text-sm tracking-tight text-center">
             REGISTER TO EVENT <span class="text-lg font-bold tracking-wide uppercase">{{ $event->name }}</span>

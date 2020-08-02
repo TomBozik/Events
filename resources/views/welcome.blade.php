@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="flex flex-col w-screen h-screen custombg">
+<div class="flex flex-col w-screen custom-h-screen custombg">
 	<div class="mx-auto my-auto">
 		<div class="flex flex-col">
 
