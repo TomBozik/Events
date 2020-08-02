@@ -1,18 +1,18 @@
 <template>
     <div class="flex flex-col w-full md:w-72">
         <div class="text-xl font-bold text-center uppercase">Event Persons</div>
-        <div class="w-32 h-1 mx-auto my-1 bg-gray-300 rounded-full sm:hidden"></div>
-        <div class="grid grid-cols-2 sm:grid-cols-1">
+        <div class="w-32 h-1 mx-auto my-1 bg-gray-300 rounded-full md:hidden"></div>
+        <div class="grid grid-cols-2 md:grid-cols-1">
             <div v-for="person in persons" :key="person.id" class="px-2">
                 <div class="flex flex-col pt-2 font-semibold text-center text-md">
                     <button v-if="isAdmin == 1" v-on:click="deletePerson(person.id)" class="appearance-none focus:outline-none hover:text-red-700" :class="person.id == personId ? 'font-extrabold' : 'font-semibold'">{{ person.username }}</button>
                     <div v-else :class="person.id == personId ? 'font-extrabold' : 'font-semibold'">{{ person.username }}</div>
                 </div>
                 <div v-for="answer in person.answers" :key="answer.id" class="pb-1 text-sm text-center">
-                    <button v-if="person.id == personId" :class="person.id == personId ? 'font-bold hover:text-red-500 appearance-none focus:outline-none' : ''" v-on:click="deleteAnswer(answer.id)" >{{ answer.from }} - {{ answer.to }}</button>
-                    <div v-else :class="person.id == personId ? 'font-bold' : ''">{{ answer.from }} - {{ answer.to }}</div>
+                    <button v-if="person.id == personId" :class="person.id == personId ? 'font-semibold text-xs hover:text-red-500 appearance-none focus:outline-none sm:text-base' : ''" v-on:click="deleteAnswer(answer.id)" >{{ answer.from }} - {{ answer.to }}</button>
+                    <div v-else class="text-xs sm:text-base">{{ answer.from }} - {{ answer.to }}</div>
                 </div>
-                <div v-if="person.id == personId" class="hidden w-32 h-1 mx-auto my-1 bg-gray-300 rounded-full sm:block"></div>
+                <div v-if="person.id == personId" class="hidden w-32 h-1 mx-auto my-1 bg-gray-300 rounded-full md:block"></div>
             </div>
         </div>
         <!-- {{ isAdmin }} -->

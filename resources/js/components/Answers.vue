@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col lg:flex-row">
 
-        <div class="self-center pb-2 pr-0 lg:pb-0 lg:pr-2"><date-picker v-model="date" range :valueType="dateFormatSend" :format="dateFormat" :lang="lang" placeholder="DATE"></date-picker></div>
+        <div class="self-center pb-2 pr-0 lg:pb-0 lg:pr-2"><date-picker v-model="date" range :valueType="dateFormatSend" :format="dateFormat" :lang="lang" placeholder="DATE" @closed="blur"></date-picker></div>
         <button @click="submitAnswer" class="self-center px-24 py-1 text-lg font-bold tracking-wide text-white uppercase bg-black rounded-sm appearance-none lg:px-12 hover:text-orange-500 focus:outline-none">Add date</button>
 
     </div>
@@ -47,8 +47,12 @@
                     }
                 );
             },
+            blur() {
+                document.querySelector(":focus").blur();
+            }
         },
         mounted() {
+            document.querySelectorAll(".vdp-datepicker input").forEach(e => (e.readOnly = true));
             //TODO: errors
             var self = this;
             axios.get('/api/my-answers')
