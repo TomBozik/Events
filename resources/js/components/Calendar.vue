@@ -1,5 +1,5 @@
 <template>
-    <div class="pb-1 mx-1 md:h-full h-150">
+    <div class="flex-1 pb-1 mx-1 md:h-full h-150">
         <FullCalendar ref="fullCalendar" :options="calendarOptions" />
     </div>
 </template>
