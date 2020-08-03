@@ -13,11 +13,11 @@ body {
 }
 .custom-min-h-full {
     min-height: 100vh;
-    min-height: -webkit-fill-available;
+    /* min-height: -webkit-fill-available; */
 }
 .custom-h-screen {
     min-height: 100vh;
-    min-height: -webkit-fill-available;
+    /* min-height: -webkit-fill-available; */
 }
 
 @tailwind components;
