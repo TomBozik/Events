@@ -69,7 +69,7 @@ class EventService
         }
 
         $last = array_pop($allPeriods);
-        $overlaps = $last->overlap(...$allPeriods);
+        $overlaps =  ($last != null ? $last->overlap(...$allPeriods) : []);
         $overlapsArr = [];
 
         foreach($overlaps as $overlap){

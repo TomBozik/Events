@@ -23,11 +23,6 @@
                     initialView: 'dayGridMonth',
                     firstDay:1,
                     height: '100%',
-                    // aspectRatio:0.8,
-                    events:{
-                        url: '/api/event-overlaps',
-                        method: 'GET'
-                    },  
                     eventColor: 'black',
                     headerToolbar: {
                         left: '',
