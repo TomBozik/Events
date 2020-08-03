@@ -38,9 +38,17 @@ class AnswerController extends Controller
 
         $person = $personService->getPersonByCode($personCode);
         $event = $eventService->getEventById($person->event_id);
-        $answer = $answerService->createAnswer($data, $person, $event);
-
-        return new AnswerResource($answer);
+        list($answer, $isOverlapping, $merged) = $answerService->createAnswer($data, $person, $event);
+        
+        if ($answer){
+            return new AnswerResource($answer);
+        }
+        else if($isOverlapping){
+            abort(response()->json(['error' => 'Your dates are overlapping!'], 400));
+        }
+        else {
+            return response()->json(['data' => 'merged']);
+        }
 
     }
 
