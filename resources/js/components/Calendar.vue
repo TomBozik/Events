@@ -79,4 +79,5 @@
     margin: 0;
     text-transform: uppercase;
 }
+.fc-scroller { overflow-y: hidden !important; }
 </style>
