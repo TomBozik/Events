@@ -11,7 +11,7 @@
 				<event-info :is-admin="{{ $isAdmin }}" class="pt-2"></event-info>
 				<answers></answers>
 				<calendar></calendar>
-				<invitation-link url="{{ url('/events'. '/'. $event->code) }}" class="self-center hidden pt-4 text-gray-600 md:block"></invitation-link>
+				<invitation-link url="{{ url('/events'. '/'. $event->code) }}" class="self-center hidden pt-8 text-gray-600 md:block"></invitation-link>
 			</div>
 
 			<invitation-link url="{{ url('/events'. '/'. $event->code) }}" class="order-3 pt-8 text-gray-600 md:hidden"></invitation-link>
