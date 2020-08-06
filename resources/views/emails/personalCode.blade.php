@@ -2,7 +2,7 @@
 # {{ $event->name }}
 
 Your Code: **{{ $personalCode }}**
-@component('mail::button', ['url' => url('/events'. '/'. $event->code) ])
+@component('mail::button', ['url' => url('/login'. '/'. $event->code) ])
 Event Login Page
 @endcomponent
 
