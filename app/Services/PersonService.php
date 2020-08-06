@@ -1,6 +1,8 @@
 <?php
 namespace App\Services;
 use App\Person;
+use App\Mail\PersonalCode;
+use Illuminate\Support\Facades\Mail;
 
 class PersonService
 {
@@ -22,6 +24,10 @@ class PersonService
             'email' => $data['email'],
             'event_id' => $event->id,
         ]);
+
+        if ($person->email){
+            Mail::to($person->email)->send(new PersonalCode($person->code, $event));
+        }
         
         return $person;
     }
