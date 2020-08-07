@@ -1,141 +1,107 @@
 <?php
 
 namespace App\Http\Controllers;
-use Symfony\Component\HttpFoundation\Cookie;
-use Illuminate\Http\Request;
-use App\Services\PersonService;
-use App\Services\EventService;
-use Illuminate\Support\Facades\Crypt;
-use App\Http\Resources\PersonResource;
+
 use App\Http\Resources\EventResource;
+use App\Http\Resources\PersonResource;
+use App\Services\EventService;
+use App\Services\PersonService;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class EventController extends Controller
 {
+    protected $eventService;
+    protected $personService;
+
+    public function __construct(EventService $eventService, PersonService $personService)
+    {
+        $this->eventService = $eventService;
+        $this->personService = $personService;
+    }
+
     public function create(Request $request)
     {
         return view('events.create');
     }
 
-
     public function store(Request $request)
     {
         $data = request()->validate([
-            'event_name'        => ['required'],
-            'event_password'    => ['required'],
-            'person_name'       => ['required'],
-            'email'             => ['email', 'nullable'],
-            // 'description'       => ['required'],
-            // 'max_answers'       => ['required'],
+            'event_name' => ['required'],
+            'event_password' => ['required'],
+            'person_name' => ['required'],
+            'email' => ['email', 'nullable'],
         ]);
-        
 
-        $eventService = new EventService();
-        $personService = new PersonService();
-
-        $event = $eventService->createEvent($data);
-        $person = $personService->createPerson($data, $event);
-
-        $event = $eventService->addAdmin($event, $person);
-
+        list($event, $person) = $this->eventService->saveEvent($data);
         $cookie = cookie('personCode', $person->code, 525600);
 
         return redirect()->route('events.show', ['code' => $event->code])
-                ->with('personCode', $person->code)
-                ->withCookie($cookie);
+            ->with('personCode', $person->code)
+            ->withCookie($cookie);
     }
-
 
     public function show(Request $request, $code)
     {
-        $eventService = new EventService();
-        $personService = new PersonService();
-        $event = $eventService->getEventByCode($code);
+        $personCode = $request->cookie('personCode');
 
-        if($event == null){
+        $event = $this->eventService->getEventByCode($code);
+
+        if ($event == null) {
             return redirect('/')->with('msg', 'Wrong Event Code!');
         }
-
-        $personCode = $request->cookie('personCode');
-        if($personCode == null){
+        if ($personCode == null) {
             return view('persons.register', compact('event'));
         } else {
-            $person = $personService->getPersonByCode($personCode);
-            if($person == null){
+            $person = $this->personService->getPersonByCode($personCode);
+            if ($person == null) {
                 return view('persons.register', compact('event'));
             }
-            if($person->event_id != $event->id){
+            if ($person->event_id != $event->id) {
                 return view('persons.register', compact('event'));
             }
         }
 
-        $isAdmin = 0;
-        if($person->id == $event->admin_id){
-            $isAdmin = 1;
-        }
+        $isAdmin = $this->personService->checkIfAdmin($event, $person);
 
         return view('events.show', compact('event', 'person', 'isAdmin'));
     }
 
-
     public function getEventPersons(Request $request)
     {
         $personCode = $request->cookie('personCode');
-        $eventService = new EventService();
-        $personService = new PersonService();
-
-        $person = $personService->getPersonByCode($personCode);
-        $event = $eventService->getEventById($person->event_id);
-        $eventPersons = $event->peoples()->get();
-
+        $eventPersons = $this->eventService->getEventPersons($personCode);
         return PersonResource::collection($eventPersons);
     }
 
-
-    public function getEventInfo(Request $request)
+    public function getEvent(Request $request)
     {
         $personCode = $request->cookie('personCode');
-        $eventService = new EventService();
-        $personService = new PersonService();
-
-        $person = $personService->getPersonByCode($personCode);
-        $event = $eventService->getEventById($person->event_id);
+        $event = $this->eventService->getEvent($personCode);
 
         return new EventResource($event);
     }
 
-
-    public function updateEventInfo(Request $request)
+    public function updateEvent(Request $request)
     {
         $personCode = $request->cookie('personCode');
 
         $data = request()->validate([
-            'name'           => ['required'],
-            'description'    => [''],
+            'name' => ['required'],
+            'description' => [''],
         ]);
 
-        $personService = new PersonService();
-        $eventService = new EventService();
+        $event = $this->eventService->updateEvent($personCode, $data);
 
-        $person = $personService->getPersonByCode($personCode);
-        $event = $eventService->getEventById($person->event_id);
-
-        if($event->admin_id != $person->id){
-            abort(response()->json(['error' => 'Not Event Admin'], 400));
-        }
-        
-        $event = $eventService->updateEvent($event, $data);
         return new EventResource($event);
     }
 
     public function getEventOverlaps(Request $request)
     {
         $personCode = $request->cookie('personCode');
-        $eventService = new EventService();
-        $personService = new PersonService();
 
-        $person = $personService->getPersonByCode($personCode);
-        $event = $eventService->getEventById($person->event_id);
-        $overlaps = $eventService->getOverlaps($event);
+        $overlaps = $this->eventService->getOverlaps($personCode);
 
         return response()->json(['data' => $overlaps]);
     }

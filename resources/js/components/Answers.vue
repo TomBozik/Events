@@ -22,7 +22,6 @@
                 date: null,
                 dateFormat:"DD.MM.YYYY",
                 dateFormatSend:"YYYY-MM-DD",
-                answers: [],
                 errors: null,
                 lang: {
                     formatLocale: {
@@ -39,7 +38,6 @@
                     'to': self.date[1],
                 }).then(
                     response =>{
-                        self.answers.push(response.data.data);
                         self.date = null;
                         this.$root.$refs.PersonsList.getPersons();
                         this.$root.$refs.Calendar.getEventOverlaps();
@@ -52,11 +50,6 @@
         },
         mounted() {
             document.getElementsByClassName('mx-input')[0].setAttribute('readonly', 'readonly');
-            var self = this;
-            axios.get('/api/my-answers')
-            .then(function(response){
-                self.answers = response.data.data;
-            });
         }
     }
 </script>

@@ -1,54 +1,67 @@
 <?php
 namespace App\Services;
+
+use App\Event;
+use App\Person;
 use App\Answer;
 use Spatie\Period\Period;
-use Spatie\Period\PeriodCollection;
 
 class AnswerService
 {
-    public function createAnswer($data, $person, $event)
-    {
 
-        $answers = $person->answers()->get();
+    public function createAnswer($data, $personCode)
+    {
+        $person = Person::where('code', $personCode)->first();
+        $event = Event::where('id', $person->event_id)->firstOrFail();
+        $personAnswers = $person->answers()->get();
+
         $newAnswerPeriod = Period::make($data['from'], $data['to']);
-        $answersLength= $answers->count();
         $isOverlapping = false;
         $merged = false;
 
-        for($i = 0; $i < $answersLength; $i++){
-            $answerPeriod = Period::make($answers[$i]['from'], $answers[$i]['to']);
-            if($answerPeriod->overlapsWith($newAnswerPeriod)){
+        for ($i = 0; $i < $personAnswers->count(); $i++) {
+
+            $answerPeriod = Period::make($personAnswers[$i]['from'], $personAnswers[$i]['to']);
+            if ($answerPeriod->overlapsWith($newAnswerPeriod)) {
                 $isOverlapping = true;
                 break;
             }
-            if($answerPeriod->touchesWith($newAnswerPeriod)){
-                $updatedFrom = min([$answers[$i]['from'], $data['from']]);
-                $updatedTo = max([$answers[$i]['to'], $data['to']]);
-                $answers[$i]->update([
+
+            if ($answerPeriod->touchesWith($newAnswerPeriod)) {
+                $updatedFrom = min([$personAnswers[$i]['from'], $data['from']]);
+                $updatedTo = max([$personAnswers[$i]['to'], $data['to']]);
+                Answer::find($personAnswers[$i]['id'])->update([
+                    'id' => $personAnswers[$i]['id'],
                     'from' => $updatedFrom,
-                    'to' => $updatedTo
+                    'to' => $updatedTo,
                 ]);
                 $merged = true;
                 break;
             }
         }
-        
-        $answer = null;
-        if (!$merged && !$isOverlapping){
-            $answer = Answer::create([
+
+        if (!$merged && !$isOverlapping) {
+            Answer::create([
                 'from' => $data['from'],
                 'to' => $data['to'],
                 'event_id' => $event->id,
                 'person_id' => $person->id,
             ]);
+
         }
-        
-        return array($answer, $isOverlapping, $merged);
+
+        return $isOverlapping;
     }
 
-    public function getAnswerById($id)
+    public function deleteAnswer($id, $personCode)
     {
-        return Answer::where('id', '=', $id)->first(); 
-    }
+        $person = Person::where('code', $personCode)->first();
+        $answer = Answer::where('id', $id)->firstOrFail();
 
+        if ($answer->person_id != $person->id) {
+            abort(response()->json(['error' => 'Wrong owner'], 400));
+        }
+
+        $answer->delete();
+    }
 }
