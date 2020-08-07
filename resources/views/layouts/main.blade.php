@@ -19,6 +19,7 @@
                 @yield('content')
             </main>
         </div>
+        @include('cookieConsent::index')
     </body>
 </html>
 
