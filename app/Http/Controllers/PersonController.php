@@ -19,6 +19,8 @@ class PersonController extends Controller
         $this->personService = $personService;
     }
 
+    // VIEWS
+
     public function register(Request $request)
     {
         $data = request()->validate([
@@ -77,6 +79,8 @@ class PersonController extends Controller
         return redirect()->route('events.show', ['code' => $event->code])->withCookie($cookie);
 
     }
+
+    // API
 
     public function deletePerson(Request $request, $id)
     {

@@ -11,7 +11,7 @@ class AnswerService
 
     public function createAnswer($data, $personCode)
     {
-        $person = Person::where('code', $personCode)->first();
+        $person = Person::where('code', $personCode)->firstOrFail();
         $event = Event::where('id', $person->event_id)->firstOrFail();
         $personAnswers = $person->answers()->get();
 
@@ -30,11 +30,13 @@ class AnswerService
             if ($answerPeriod->touchesWith($newAnswerPeriod)) {
                 $updatedFrom = min([$personAnswers[$i]['from'], $data['from']]);
                 $updatedTo = max([$personAnswers[$i]['to'], $data['to']]);
+
                 Answer::find($personAnswers[$i]['id'])->update([
                     'id' => $personAnswers[$i]['id'],
                     'from' => $updatedFrom,
                     'to' => $updatedTo,
                 ]);
+                
                 $merged = true;
                 break;
             }

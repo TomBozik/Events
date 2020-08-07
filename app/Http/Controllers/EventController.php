@@ -20,6 +20,8 @@ class EventController extends Controller
         $this->personService = $personService;
     }
 
+    // VIEWS
+
     public function create(Request $request)
     {
         return view('events.create');
@@ -45,28 +47,25 @@ class EventController extends Controller
     public function show(Request $request, $code)
     {
         $personCode = $request->cookie('personCode');
-
+        $person = $this->personService->getPersonByCode($personCode);
         $event = $this->eventService->getEventByCode($code);
 
         if ($event == null) {
             return redirect('/')->with('msg', 'Wrong Event Code!');
         }
-        if ($personCode == null) {
+        if ($person == null) {
             return view('persons.register', compact('event'));
-        } else {
-            $person = $this->personService->getPersonByCode($personCode);
-            if ($person == null) {
-                return view('persons.register', compact('event'));
-            }
-            if ($person->event_id != $event->id) {
-                return view('persons.register', compact('event'));
-            }
+        }
+        if ($person->event_id != $event->id) {
+            return view('persons.register', compact('event'));
         }
 
         $isAdmin = $this->personService->checkIfAdmin($event, $person);
 
         return view('events.show', compact('event', 'person', 'isAdmin'));
     }
+
+    // API
 
     public function getEventPersons(Request $request)
     {
@@ -79,7 +78,6 @@ class EventController extends Controller
     {
         $personCode = $request->cookie('personCode');
         $event = $this->eventService->getEvent($personCode);
-
         return new EventResource($event);
     }
 
@@ -100,7 +98,6 @@ class EventController extends Controller
     public function getEventOverlaps(Request $request)
     {
         $personCode = $request->cookie('personCode');
-
         $overlaps = $this->eventService->getOverlaps($personCode);
 
         return response()->json(['data' => $overlaps]);

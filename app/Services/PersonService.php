@@ -21,10 +21,10 @@ class PersonService
     {
         return Person::where('code', $code)->first();
     }
-    public function getPersonById($id)
-    {
-        return Person::where('id', $id)->firstOrFail();
-    }
+    // public function getPersonById($id)
+    // {
+    //     return Person::where('id', $id)->firstOrFail();
+    // }
 
     public function createPerson($data, $event)
     {
