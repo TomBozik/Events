@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Event;
 use App\Person;
 use App\Mail\PersonalCode;
+use App\Jobs\SendMail;
 use Illuminate\Support\Facades\Mail;
 
 class PersonService
@@ -21,10 +22,6 @@ class PersonService
     {
         return Person::where('code', $code)->first();
     }
-    // public function getPersonById($id)
-    // {
-    //     return Person::where('id', $id)->firstOrFail();
-    // }
 
     public function createPerson($data, $event)
     {
@@ -36,7 +33,8 @@ class PersonService
         ]);
 
         if ($person->email) {
-            Mail::to($person->email)->send(new PersonalCode($person->code, $event));
+            SendMail::dispatch(new PersonalCode($person->code, $event), $person->email);
+            // Mail::to($person->email)->send(new PersonalCode($person->code, $event));
         }
 
         return $person;
